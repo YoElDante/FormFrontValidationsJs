@@ -12,14 +12,15 @@ document.getElementById('pageTitle').style.color = 'purple';
 lugar para el error
 <p class="errMsg"></p>
 */
+
 const elForm = document.getElementById('registroForm')
 const elInputFirstname = document.getElementById('firstname');
 const elInputSurname = document.getElementById('surname');
+const elInputBirthdate = document.getElementById('birthdate');
 const elInputEmail = document.getElementById('email');
 const elInputpassword = document.getElementById('password');
 const elInputpasswordConfirm = document.getElementById('passwordConfirm');
 const elInputSubmid = document.getElementById('submid');
-console.log(elInputFirstname.name);
 
 function validation(element, regex, errorMsg = 'Campo obligatorio') {
   //sanitizacion de campo
@@ -44,6 +45,11 @@ function validation(element, regex, errorMsg = 'Campo obligatorio') {
   }
 }
 
+
+//---------------   
+//   Firstname   
+//---------------   
+
 elInputFirstname.addEventListener('blur', function () {
   validation(this, /^[A-Z][a-z]{2,}$/)
   //Queremos manejar las validaciones del input mediante expresiones regulares
@@ -53,15 +59,58 @@ elInputFirstname.addEventListener('blur', function () {
   //Que no contenga simbolos ni numeros
 })
 
+//-------------
+//   Surname   
+//-------------
 elInputSurname.addEventListener('blur', function () {
   validation(this, /^[A-Z][a-z]{2,}$/)
 })
 
+//------------
+//   Email
+//------------
 elInputEmail.addEventListener('blur', function () {
   validation(this, /^[^\s@]{3,}@[^@\s]{3,}\.com$/
     , ('mail obligatorio\n' + 'debe contener un @\n' + 'debe tener .com\n' +
       'Debe tener al menos 3 letras antes y despues del @'))
 })
+
+//---------------
+//   Birthdate 
+//---------------
+
+elInputBirthdate.addEventListener('focus', function () {
+  this.nextElementSibling.innerText = 'La fecha debe ser posterior 01/01/1920\n' + 'Debes ser mayor de 18 años para continuar';
+  this.nextElementSibling.style.color = "blue"
+});
+
+elInputBirthdate.addEventListener('blur', function () {
+
+  let birthdate = new Date('0001-01-01')
+  if (this.value){
+    birthdate = new Date(this.value);
+  }
+
+  // Declaramos la fecha mínima
+  const minDate = new Date('1920-01-01');
+
+  // Calculamos la fecha hace 18 años
+  const eighteenYearsAgo = new Date();
+  eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18);
+
+  // Validar si la fecha está dentro del rango
+  if (birthdate > eighteenYearsAgo || birthdate < minDate) {
+    // Mostrar mensaje de error
+    this.nextElementSibling.innerText = 'La fecha debe ser posterior 01/01/1920\n' + 'Debes ser mayor de 18 años para continuar';
+    // Puedes agregar estilos CSS para que el mensaje sea visible
+    this.nextElementSibling.style.color = "red"
+
+  } else {
+    // Limpiar el mensaje de error si la fecha es válida
+    this.nextElementSibling.innerText = '';
+    elInputBirthdate.isOk = true;
+  }
+});
 
 //--------------   
 //   Password   
@@ -123,16 +172,15 @@ elInputpasswordConfirm.addEventListener('blur', function () {
 //------------
 
 elInputSubmid.addEventListener('click', function (event) {
-  
+
   let errorMsg = '';
-  
-  elForm.querySelectorAll('input').forEach( function (campo) {
-    console.log(campo);
-    if (!campo.isOk){
+
+  elForm.querySelectorAll('input').forEach(function (campo) {
+    if (!campo.isOk) {
       errorMsg += `Error en el campo ${campo.name}\n`
-    } 
+    }
   })
-  
+
   if (errorMsg === '') {
     this.nextElementSibling.innerText = 'Estan todos bien';
     this.nextElementSibling.style.color = 'green'
