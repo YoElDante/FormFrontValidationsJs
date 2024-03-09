@@ -51,19 +51,20 @@ function validation(element, regex, errorMsg = 'Campo obligatorio') {
 //---------------   
 
 elInputFirstname.addEventListener('blur', function () {
-  validation(this, /^[A-Z][a-z]{2,}$/)
+  validation(this, /^[A-ZÁÉÍÓÚÜÑ]{1}[a-záéíóúüñ]{1,}$/)
   //Queremos manejar las validaciones del input mediante expresiones regulares
   //Que al menos tenga 3 caracteres
   //Que la primer letra este en mayuscula
   //Que no contenga espacios
   //Que no contenga simbolos ni numeros
+  //Acepta letra ñ y vocales con acento
 })
 
 //-------------
 //   Surname   
 //-------------
 elInputSurname.addEventListener('blur', function () {
-  validation(this, /^[A-Z][a-z]{2,}$/)
+  validation(this, /^[A-ZÁÉÍÓÚÜÑ]{1}[a-záéíóúüñ]{1,}$/)
 })
 
 //------------
