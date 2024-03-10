@@ -81,14 +81,15 @@ elInputEmail.addEventListener('blur', function () {
 //---------------
 
 elInputBirthdate.addEventListener('focus', function () {
-  this.nextElementSibling.innerText = 'La fecha debe ser posterior 01/01/1920\n' + 'Debes ser mayor de 18 años para continuar';
+  this.nextElementSibling.innerText = 'La fecha debe ser posterior 01/01/1920\n' +
+    'Debes ser mayor de 18 años para continuar';
   this.nextElementSibling.style.color = "blue"
 });
 
 elInputBirthdate.addEventListener('blur', function () {
 
   let birthdate = new Date('0001-01-01')
-  if (this.value){
+  if (this.value) {
     birthdate = new Date(this.value);
   }
 
@@ -105,6 +106,8 @@ elInputBirthdate.addEventListener('blur', function () {
     this.nextElementSibling.innerText = 'La fecha debe ser posterior 01/01/1920\n' + 'Debes ser mayor de 18 años para continuar';
     // Puedes agregar estilos CSS para que el mensaje sea visible
     this.nextElementSibling.style.color = "red"
+
+    elInputBirthdate.isOk = false;
 
   } else {
     // Limpiar el mensaje de error si la fecha es válida
